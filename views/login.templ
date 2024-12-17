@@ -3,12 +3,13 @@ package views
 // the hx tags are used for form submit through htmx
 templ Login() {
 	@template() {
-		<div class="flex justify-center items-center">
+		<div hx-ext="response-targets" class="flex justify-center items-center">
 			<form
 				class="flex flex-col justify-center items-center gap-5 py-5"
 				hx-post="/login"
 				hx-target="#feedback"
 				hx-indicator="#indicator"
+                hx-target-errors="#feedback"
 			>
 				<label class="input input-bordered flex items-center gap-2 w-full">
 					Email
