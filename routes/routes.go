@@ -13,6 +13,9 @@ func SetRoutes(app *fiber.App) {
 	app.Get("/", func(c *fiber.Ctx) error {
 		return render(c, views.Home())
 	})
+	app.Get("/login", func(c *fiber.Ctx) error {
+		return render(c, views.Login())
+	})
 }
 
 // non exported function
