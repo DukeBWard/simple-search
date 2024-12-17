@@ -1,6 +1,7 @@
 package main
 
 import (
+	"dukebward/search/routes"
 	"fmt"
 	"log"
 	"os"
@@ -33,6 +34,8 @@ func main() {
 
 	// add in some middleware
 	app.Use(compress.New())
+
+	routes.SetRoutes(app)
 
 	// start server on its own go routine
 	go func() {
