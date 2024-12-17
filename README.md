@@ -1,3 +1,6 @@
+# Notes
+Using htmx, tailwindcss and daisyui from CDN
+
 # Backend
 * templ
 * fiber
@@ -7,3 +10,4 @@
 * air for live reload: `air`
   * useful for building with templ
 * daisyui
+* tailwindcss

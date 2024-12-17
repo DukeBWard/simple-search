@@ -1,6 +1,8 @@
 module dukebward/search
 
-go 1.22.3
+go 1.23
+
+toolchain go1.23.4
 
 require (
 	github.com/a-h/templ v0.2.793
@@ -19,5 +21,5 @@ require (
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasthttp v1.51.0 // indirect
 	github.com/valyala/tcplisten v1.0.0 // indirect
-	golang.org/x/sys v0.23.0 // indirect
+	golang.org/x/sys v0.25.0 // indirect
 )
