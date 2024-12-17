@@ -1,6 +1,7 @@
 package main
 
 import (
+	"dukebward/search/db"
 	"dukebward/search/routes"
 	"fmt"
 	"log"
@@ -34,7 +35,7 @@ func main() {
 
 	// add in some middleware
 	app.Use(compress.New())
-
+	db.InitDB()
 	routes.SetRoutes(app)
 
 	// start server on its own go routine
