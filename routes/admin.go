@@ -4,6 +4,7 @@ import (
 	"dukebward/search/db"
 	"dukebward/search/utils"
 	"dukebward/search/views"
+	"fmt"
 	"os"
 	"strconv"
 	"time"
@@ -99,4 +100,40 @@ func DashboardHandler(c *fiber.Ctx) error {
 	}
 	amount := strconv.FormatUint(uint64(settings.Amount), 10)
 	return render(c, views.Home(amount, settings.SearchOn, settings.AddNew))
+}
+
+// the backtick is a struct tag and you can do this
+// with forms and json
+// need to match the name of the name attribute in the form
+type settingsForm struct {
+	Amount   int    `form:amount`
+	SearchOn string `form:searchOn`
+	AddNew   string `form:addNew`
+}
+
+func DashboardPostHandler(c *fiber.Ctx) error {
+	input := settingsForm{}
+	if err := c.BodyParser(&input); err != nil {
+		c.Status(500)
+		return c.SendString("<h2>Can't get settings</h2>")
+	}
+	addNew := false
+	if input.AddNew == "on" {
+		addNew = true
+	}
+	searchOn := false
+	if input.SearchOn == "on" {
+		searchOn = true
+	}
+	settings := &db.SearchSetting{}
+	settings.Amount = uint(input.Amount)
+	settings.SearchOn = searchOn
+	settings.AddNew = addNew
+	err := settings.Update()
+	if err != nil {
+		fmt.Println(err)
+		return c.SendString("<h2>Can't get settings</h2>")
+	}
+	c.Append("HX-Refresh", "true")
+	return c.SendStatus(200)
 }
