@@ -19,7 +19,7 @@ type settingsForm struct {
 
 // export function so capital letter start
 func SetRoutes(app *fiber.App) {
-	app.Get("/", AuthMiddleware, LoginHandler)
+	app.Get("/", AuthMiddleware, DashboardHandler)
 	app.Post("/", AuthMiddleware, LoginPostHandler)
 	app.Get("/login", LoginHandler)
 	app.Post("/login", LoginPostHandler)

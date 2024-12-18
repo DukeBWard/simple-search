@@ -5,6 +5,7 @@ import (
 	"dukebward/search/utils"
 	"dukebward/search/views"
 	"os"
+	"strconv"
 	"time"
 
 	"github.com/gofiber/fiber/v2"
@@ -87,5 +88,15 @@ func AuthMiddleware(c *fiber.Ctx) error {
 	}
 	// if we get here the cookie or jwt token is invalid
 	return c.Redirect("/login", 302)
+}
 
+func DashboardHandler(c *fiber.Ctx) error {
+	settings := db.SearchSetting{}
+	err := settings.Get()
+	if err != nil {
+		c.Status(500)
+		return c.SendString("<h2>Can't get settings</h2>")
+	}
+	amount := strconv.FormatUint(uint64(settings.Amount), 10)
+	return render(c, views.Home(amount, settings.SearchOn, settings.AddNew))
 }
