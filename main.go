@@ -3,6 +3,7 @@ package main
 import (
 	"dukebward/search/db"
 	"dukebward/search/routes"
+	"dukebward/search/utils"
 	"fmt"
 	"log"
 	"os"
@@ -37,6 +38,8 @@ func main() {
 	app.Use(compress.New())
 	db.InitDB()
 	routes.SetRoutes(app)
+	// start crawler
+	utils.StartCronJobs()
 
 	// start server on its own go routine
 	go func() {

@@ -25,7 +25,8 @@ func InitDB() {
 		fmt.Println("cannot install uuid")
 		panic(err)
 	}
-	err = DBConnect.AutoMigrate(&User{}, &SearchSetting{})
+	// auto migrate
+	err = DBConnect.AutoMigrate(&User{}, &SearchSetting{}, &CrawledUrl{})
 	if err != nil {
 		panic(err)
 	}
