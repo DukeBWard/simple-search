@@ -9,6 +9,7 @@ require (
 	github.com/gofiber/fiber/v2 v2.52.5
 	github.com/golang-jwt/jwt/v5 v5.2.1
 	github.com/joho/godotenv v1.5.1
+	github.com/kljensen/snowball v0.10.0
 	github.com/robfig/cron v1.2.0
 	golang.org/x/crypto v0.26.0
 	golang.org/x/net v0.28.0
