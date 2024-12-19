@@ -9,6 +9,7 @@ Using htmx, tailwindcss and daisyui from CDN
 * fiber
 * htmx
 * cron
+* postgresql
 
 # Frontend
 * templ
