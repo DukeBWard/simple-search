@@ -82,3 +82,32 @@ func RunEngine() {
 	}
 	fmt.Printf("\n Added %d new urls to the db", len(newUrls))
 }
+
+func RunIndex() {
+	fmt.Println("search index start")
+	defer fmt.Println("serach index stopped")
+
+	// get index settings from db
+	crawled := &db.CrawledUrl{}
+	// get non indexed urls
+	notIndexed, err := crawled.GetNotIndex()
+	if err != nil {
+		return
+	}
+
+	// make new index and not non indexed urls
+	idx := make(Index)
+	idx.Add(notIndexed)
+	searchIndex := &db.SearchIndex{}
+	// save index to db
+	err = searchIndex.Save(idx, notIndexed)
+	if err != nil {
+		return
+	}
+	// save urls indexed to true after we index them
+	err = crawled.SetIndexedTrue(notIndexed)
+	if err != nil {
+		return
+	}
+
+}

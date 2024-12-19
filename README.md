@@ -15,3 +15,6 @@ Using htmx, tailwindcss and daisyui from CDN
 
 # Crawler
 Uses DFS algorithms to scan and save URLs and metadata from the internet
+
+# Indexer
+Implements url indexing 
