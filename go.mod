@@ -10,7 +10,8 @@ require (
 	github.com/golang-jwt/jwt/v5 v5.2.1
 	github.com/joho/godotenv v1.5.1
 	github.com/robfig/cron v1.2.0
-	golang.org/x/crypto v0.17.0
+	golang.org/x/crypto v0.26.0
+	golang.org/x/net v0.28.0
 	gorm.io/driver/postgres v1.5.11
 	gorm.io/gorm v1.25.12
 )
@@ -34,5 +35,5 @@ require (
 	github.com/valyala/tcplisten v1.0.0 // indirect
 	golang.org/x/sync v0.8.0 // indirect
 	golang.org/x/sys v0.25.0 // indirect
-	golang.org/x/text v0.14.0 // indirect
+	golang.org/x/text v0.17.0 // indirect
 )
