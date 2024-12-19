@@ -10,6 +10,7 @@ type searchInput struct {
 	Term string `json:"term"`
 }
 
+// search handler
 func HandleSearch(c *fiber.Ctx) error {
 	input := searchInput{}
 	if err := c.BodyParser(&input); err != nil {
