@@ -34,6 +34,7 @@ func (crawled *CrawledUrl) UpdatedUrl(input CrawledUrl) error {
 	return nil
 }
 
+// receiver, parameters, return values
 func (crawled *CrawledUrl) GetNextCrawlUrls(limit int) ([]CrawledUrl, error) {
 	var urls []CrawledUrl
 	tx := DBConnect.Where("last_tested IS NULL").Limit(limit).Find(&urls)
@@ -47,6 +48,27 @@ func (crawled *CrawledUrl) Save() error {
 	tx := DBConnect.Save(&crawled)
 	if tx.Error != nil {
 		return tx.Error
+	}
+	return nil
+}
+
+func (crawled *CrawledUrl) GetNotIndex() ([]CrawledUrl, error) {
+	var urls []CrawledUrl
+	// tx is transaction
+	tx := DBConnect.Where("indexed = ? AND last_tested IS NOT NULL", false).Find(&urls)
+	if tx.Error != nil {
+		return []CrawledUrl{}, tx.Error
+	}
+	return urls, nil
+}
+
+func (crawled *CrawledUrl) SetIndexedTrue(urls []CrawledUrl) error {
+	for _, url := range urls {
+		url.Indexed = true
+		tx := DBConnect.Save(&url)
+		if tx.Error != nil {
+			return tx.Error
+		}
 	}
 	return nil
 }
