@@ -1,0 +1,16 @@
+package views
+
+templ Search() {
+    @template() {
+        <form
+            hx-post="/search"
+            hx-trigger="submit"
+            hx-target="#search-results"
+            class="flex flex-col items-center gap-5 py-5"
+        >
+            <input type="text" name="term" placeholder="Search..." class="input input-bordered w-full max-w-xs"/>
+            <button type="submit" class="btn">Search</button>
+        </form>
+        <div id="search-results"></div>
+    }
+}

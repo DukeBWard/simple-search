@@ -73,20 +73,28 @@ func Home(amount string, searchOn bool, addNew bool) templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div hx-ext=\"response-targets\" class=\"flex flex-col justify-center items-center\"><h1 class=\"text-2xl py-5 text-center\">Welcome to Search Setting</h1><div class=\"py-5\"><button hx-post=\"/logout\" class=\"btn\">Logout</button></div><form class=\"flex flex-col justify-center items-center gap-5 py-5\" hx-post=\"/\" hx-target=\"#feedback\" hx-target-error=\"#feedback\" hx-indicator=\"#indicator\"><label class=\"input input-bordered flex items-center gap-2 w-full\">Urls per hour: <input value=\"")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div hx-ext=\"response-targets\" class=\"flex flex-col justify-center items-center min-h-screen bg-base-200\">")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = Search().Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"card w-full max-w-md shadow-xl bg-base-100\"><div class=\"card-body\"><h1 class=\"card-title text-2xl text-center\">Welcome to Search Settings</h1><form class=\"flex flex-col gap-4\" hx-post=\"/\" hx-target=\"#feedback\" hx-target-error=\"#feedback\" hx-indicator=\"#indicator\"><div class=\"form-control\"><label class=\"label\"><span class=\"label-text\">URLs per hour</span></label> <input value=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var4 string
 			templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(amount)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/index.templ`, Line: 37, Col: 26}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/index.templ`, Line: 39, Col: 49}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" type=\"text\" class=\"grow\" name=\"amount\" placeholder=\"5\"></label><div class=\"flex flex-col\"><div class=\"form-control w-52\"><label class=\"cursor-pointer label\"><span class=\"label-text\">Search On:</span> <input type=\"checkbox\" class=\"toggle toggle-primary\" name=\"searchOn\"")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" type=\"text\" name=\"amount\" placeholder=\"5\" class=\"input input-bordered\"></div><div class=\"form-control\"><label class=\"label cursor-pointer\"><span class=\"label-text\">Search On</span> <input type=\"checkbox\" class=\"toggle toggle-primary\" name=\"searchOn\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -96,7 +104,7 @@ func Home(amount string, searchOn bool, addNew bool) templ.Component {
 					return templ_7745c5c3_Err
 				}
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("></label></div><div class=\"form-control w-52\"><label class=\"cursor-pointer label\"><span class=\"label-text\">Add new urls:</span> <input type=\"checkbox\" class=\"toggle toggle-secondary\" name=\"addNew\"")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("></label></div><div class=\"form-control\"><label class=\"label cursor-pointer\"><span class=\"label-text\">Add New URLs</span> <input type=\"checkbox\" class=\"toggle toggle-secondary\" name=\"addNew\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -106,7 +114,7 @@ func Home(amount string, searchOn bool, addNew bool) templ.Component {
 					return templ_7745c5c3_Err
 				}
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("></label></div></div><button type=\"submit\" class=\"btn\">Submit</button><div id=\"indicator\" class=\"htmx-indicator\"><div class=\"flex justifty-center items-center w-full\"><span class=\"loading loading-spinner loading-lg text-primary h-20 w-20\"></span></div></div><div id=\"feedback\"></div></form></div>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("></label></div><div class=\"card-actions justify-end\"><button type=\"submit\" class=\"btn btn-primary\">Submit</button> <button hx-post=\"/logout\" class=\"btn btn-secondary\">Logout</button></div><div id=\"indicator\" class=\"htmx-indicator\"><div class=\"flex justify-center items-center w-full\"><span class=\"loading loading-spinner loading-lg text-primary h-20 w-20\"></span></div></div><div id=\"feedback\"></div></form></div></div></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
