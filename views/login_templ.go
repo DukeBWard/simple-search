@@ -8,7 +8,6 @@ package views
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-// the hx tags are used for form submit through htmx
 func Login() templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -39,7 +38,7 @@ func Login() templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div hx-ext=\"response-targets\" class=\"flex justify-center items-center\"><form class=\"flex flex-col justify-center items-center gap-5 py-5\" hx-post=\"/login\" hx-target=\"#feedback\" hx-indicator=\"#indicator\" hx-target-errors=\"#feedback\"><label class=\"input input-bordered flex items-center gap-2 w-full\">Email <input type=\"text\" class=\"grow\" name=\"email\" placeholder=\"user@search.com\"></label> <label class=\"input input-bordered flex items-center gap-2 w-full\">Password <input type=\"password\" class=\"grow\" name=\"password\" placeholder=\"Password\"></label> <button type=\"submit\" class=\"btn\">Login</button><div id=\"indicator\" class=\"htmx-indicator\"><div class=\"flex justifty-center items-center w-full\"><span class=\"loading loading-spinner loading-lg text-primary h-20 w-20\"></span></div></div><div id=\"feedback\"></div></form></div>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div hx-ext=\"response-targets\" class=\"flex flex-col justify-center items-center flex-grow\"><form class=\"flex flex-col justify-center items-center gap-6 bg-base-100 p-8 rounded-xl shadow-xl w-full max-w-sm mt-10\" hx-post=\"/login\" hx-target=\"#feedback\" hx-indicator=\"#indicator\" hx-target-errors=\"#feedback\"><h2 class=\"text-xl font-semibold\">Login</h2><div class=\"form-control w-full\"><label class=\"label font-medium\">Email</label> <input type=\"text\" name=\"email\" placeholder=\"user@search.com\" class=\"input input-bordered w-full\"></div><div class=\"form-control w-full\"><label class=\"label font-medium\">Password</label> <input type=\"password\" name=\"password\" placeholder=\"Password\" class=\"input input-bordered w-full\"></div><button type=\"submit\" class=\"btn btn-primary w-full\">Login</button><div id=\"indicator\" class=\"htmx-indicator\"><div class=\"flex justify-center items-center w-full\"><span class=\"loading loading-spinner loading-lg text-primary h-20 w-20\"></span></div></div><div id=\"feedback\"></div></form></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

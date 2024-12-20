@@ -38,7 +38,7 @@ func Search() templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<form hx-post=\"/search\" hx-trigger=\"submit\" hx-target=\"#search-results\" class=\"flex flex-col items-center gap-5 py-5\"><input type=\"text\" name=\"term\" placeholder=\"Search...\" class=\"input input-bordered w-full max-w-xs\"> <button type=\"submit\" class=\"btn\">Search</button></form><div id=\"search-results\"></div>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<form hx-post=\"/search\" hx-trigger=\"submit\" hx-target=\"#search-results\" class=\"flex flex-col items-center gap-5 w-full max-w-md bg-base-100 p-6 rounded-xl shadow-lg\"><input type=\"text\" name=\"term\" placeholder=\"Search...\" class=\"input input-bordered w-full\"> <button type=\"submit\" class=\"btn btn-accent w-full\">Search</button></form><div id=\"search-results\" class=\"w-full max-w-md mt-4 text-black\"></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

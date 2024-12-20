@@ -85,7 +85,7 @@ func RunEngine() {
 
 func RunIndex() {
 	fmt.Println("search index start")
-	defer fmt.Println("serach index stopped")
+	defer fmt.Println("search index stopped")
 
 	// get index settings from db
 	crawled := &db.CrawledUrl{}
