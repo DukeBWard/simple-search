@@ -2,7 +2,7 @@
 Using htmx, tailwindcss and daisyui from CDN
 
 # How to search
-`http://127.0.0.1:port/search body of {"term": "term goes here"}
+`http://127.0.0.1:port/search` body of `{"term": "term goes here"}`
 
 # Backend
 * go
