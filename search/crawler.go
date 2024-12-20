@@ -36,7 +36,7 @@ func runCrawl(inputUrl string) CrawlData {
 	baseUrl, _ := url.Parse(inputUrl)
 	// error or empty
 	if err != nil || resp == nil {
-		fmt.Println("couldnt crawl this body")
+		fmt.Println("couldn't crawl this body")
 		return CrawlData{Url: inputUrl, Success: false, ResponseCode: 0, CrawlData: ParsedBody{}}
 	}
 
@@ -92,23 +92,22 @@ func getHeadings(node *html.Node) string {
 	if node == nil {
 		return ""
 	}
-	// allows us to easily concatenate strings
 	var headings strings.Builder
 	var findH1 func(*html.Node)
-	findH1 = func(node *html.Node) {
-		if node.Type == html.ElementNode && node.Data == "h1" {
-			// see if node is empty or not
-			if node.FirstChild != nil {
-				headings.WriteString(node.FirstChild.Data)
+	findH1 = func(n *html.Node) {
+		if n.Type == html.ElementNode && n.Data == "h1" {
+			if n.FirstChild != nil {
+				headings.WriteString(n.FirstChild.Data)
 				headings.WriteString(", ")
 			}
 		}
-		for c := node.FirstChild; c != nil; c = c.NextSibling {
+		for c := n.FirstChild; c != nil; c = c.NextSibling {
 			findH1(c)
 		}
 	}
-	// get rid of last comma
-	return strings.TrimSuffix(headings.String(), ",")
+	findH1(node)
+	// Remove the last comma and space from the concatenated string
+	return strings.TrimSuffix(headings.String(), ", ")
 }
 
 // returns 2 strings, title and desc
@@ -117,20 +116,19 @@ func getPageData(node *html.Node) (string, string) {
 	if node == nil {
 		return "", ""
 	}
-	// get title and desc
+
 	title, desc := "", ""
 	var findMetaAndTitle func(*html.Node)
-	findMetaAndTitle = func(node *html.Node) {
-		if node.Type == html.ElementNode && node.Data == "title" {
-			// see if title empty
-			if node.FirstChild == nil {
+	findMetaAndTitle = func(n *html.Node) {
+		if n.Type == html.ElementNode && n.Data == "title" {
+			if n.FirstChild == nil {
 				title = ""
 			} else {
-				title = node.FirstChild.Data
+				title = n.FirstChild.Data
 			}
-		} else if node.Type == html.ElementNode && node.Data == "meta" {
+		} else if n.Type == html.ElementNode && n.Data == "meta" {
 			var name, content string
-			for _, attr := range node.Attr {
+			for _, attr := range n.Attr {
 				if attr.Key == "name" {
 					name = attr.Val
 				} else if attr.Key == "content" {
@@ -141,10 +139,13 @@ func getPageData(node *html.Node) (string, string) {
 				desc = content
 			}
 		}
+
+		// Continue DFS
+		for c := n.FirstChild; c != nil; c = c.NextSibling {
+			findMetaAndTitle(c)
+		}
 	}
-	for child := node.FirstChild; child != nil; child = child.NextSibling {
-		findMetaAndTitle(child)
-	}
+
 	findMetaAndTitle(node)
 	return title, desc
 }
@@ -152,39 +153,41 @@ func getPageData(node *html.Node) (string, string) {
 // again dfs
 func getLinks(node *html.Node, baseUrl *url.URL) Links {
 	links := Links{}
-	// base case
 	if node == nil {
 		return links
 	}
 	var findLinks func(*html.Node)
-	findLinks = func(node *html.Node) {
-		if node.Type == html.ElementNode && node.Data == "a" {
-			for _, attr := range node.Attr {
+	findLinks = func(n *html.Node) {
+		if n.Type == html.ElementNode && n.Data == "a" {
+			for _, attr := range n.Attr {
 				if attr.Key == "href" {
-					url, err := url.Parse(attr.Val)
-					if err != nil || strings.HasPrefix(url.String(), "#") || strings.HasPrefix(url.String(), "mail") ||
-						strings.HasPrefix(url.String(), "tel") || strings.HasPrefix(url.String(), "javascript") ||
-						strings.HasPrefix(url.String(), ".pdf") || strings.HasPrefix(url.String(), ".md") {
+					u, err := url.Parse(attr.Val)
+					if err != nil ||
+						strings.HasPrefix(u.String(), "#") ||
+						strings.HasPrefix(u.String(), "mail") ||
+						strings.HasPrefix(u.String(), "tel") ||
+						strings.HasPrefix(u.String(), "javascript") ||
+						strings.HasSuffix(u.String(), ".pdf") ||
+						strings.HasSuffix(u.String(), ".md") {
 						continue
 					}
-					// check to see if absolute url
-					if url.IsAbs() {
-						// need to check if internal or external
-						if isSameHost(url.String(), baseUrl.String()) {
-							links.Internal = append(links.Internal, url.String())
+					if u.IsAbs() {
+						// check if same domain
+						if isSameHost(u.String(), baseUrl.String()) {
+							links.Internal = append(links.Internal, u.String())
 						} else {
-							links.External = append(links.External, url.String())
+							links.External = append(links.External, u.String())
 						}
 					} else {
-						// use resolver to get info
-						rel := baseUrl.ResolveReference(url)
+						// relative link
+						rel := baseUrl.ResolveReference(u)
 						links.Internal = append(links.Internal, rel.String())
 					}
 				}
 			}
 		}
-		for child := node.FirstChild; child != nil; child = child.NextSibling {
-			findLinks(child)
+		for c := n.FirstChild; c != nil; c = c.NextSibling {
+			findLinks(c)
 		}
 	}
 	findLinks(node)
@@ -200,6 +203,6 @@ func isSameHost(absoluteUrl string, baseUrl string) bool {
 	if err != nil {
 		return false
 	}
-	// checking to see if links are on same domain
+	// checking to see if links are on the same domain
 	return absUrl.Host == baseUrlParsed.Host
 }
