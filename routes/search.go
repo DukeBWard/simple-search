@@ -1,7 +1,9 @@
 package routes
 
 import (
+	"bytes"
 	"dukebward/search/db"
+	"dukebward/search/views"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -42,11 +44,10 @@ func HandleSearch(c *fiber.Ctx) error {
 			"data":    nil,
 		})
 	}
-	c.Status(200)
-	c.Append("content-type", "application/json")
-	return c.JSON(fiber.Map{
-		"success": true,
-		"message": "Search results",
-		"data":    data,
-	})
+
+	// Convert your templ results component to a string
+	var buf bytes.Buffer
+	views.SearchResults(data).Render(c.Context(), &buf)
+	return c.SendString(buf.String())
+
 }

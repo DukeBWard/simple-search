@@ -1,5 +1,7 @@
 package views
 
+import "dukebward/search/db"
+
 templ Search() {
     @template() {
         <form
@@ -12,5 +14,20 @@ templ Search() {
             <button type="submit" class="btn btn-accent w-full">Search</button>
         </form>
         <div id="search-results" class="w-full max-w-md mt-4 text-black"></div>
+    }
+}
+
+templ SearchResults(results []db.CrawledUrl) {
+    @template() {
+        <div class="space-y-4 w-full max-h-[600px] overflow-y-auto overflow-x-hidden pr-2 pl-2">
+        for _, result := range results {
+            <div class="card bg-base-100 shadow-md p-4">
+                <a href={ templ.URL(result.Url) } class="font-semibold text-blue-600 underline" target="_blank">
+                    { result.Url }
+                </a>
+                <p class="mt-2 text-gray-600 text-sm">{ result.PageDescription }</p>
+            </div>
+        }
+        </div>
     }
 }
