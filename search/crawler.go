@@ -123,7 +123,7 @@ func getPageData(node *html.Node) (string, string) {
 	findMetaAndTitle = func(node *html.Node) {
 		if node.Type == html.ElementNode && node.Data == "title" {
 			// see if title empty
-			if node.FirstChild != nil {
+			if node.FirstChild == nil {
 				title = ""
 			} else {
 				title = node.FirstChild.Data
