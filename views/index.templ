@@ -57,6 +57,27 @@ templ Home(amount string, searchOn bool, addNew bool) {
                                 <input type="checkbox" class="toggle toggle-secondary" name="addNew" checked?={ addNew }/>
                             </label>
                         </div>
+                        <div class="form-control">
+                            <label class="label">
+                                <span class="label-text font-medium">Add New Seed URL</span>
+                            </label>
+                            <div class="flex gap-2">
+                                <input 
+                                    type="url" 
+                                    name="seedUrl" 
+                                    placeholder="https://example.com" 
+                                    class="input input-bordered flex-1"
+                                />
+                                <button 
+                                    type="submit" 
+                                    name="action" 
+                                    value="addUrl" 
+                                    class="btn btn-accent"
+                                >
+                                    Add URL
+                                </button>
+                            </div>
+                        </div>
                         <div class="card-actions justify-end gap-2">
                             <button type="submit" class="btn btn-primary">Submit</button>
                             <button hx-post="/logout" class="btn btn-secondary">Logout</button>

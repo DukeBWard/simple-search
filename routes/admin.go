@@ -4,7 +4,6 @@ import (
 	"dukebward/search/db"
 	"dukebward/search/utils"
 	"dukebward/search/views"
-	"fmt"
 	"os"
 	"strconv"
 	"time"
@@ -106,17 +105,33 @@ func DashboardHandler(c *fiber.Ctx) error {
 // with forms and json
 // need to match the name of the name attribute in the form
 type settingsForm struct {
-	Amount   int    `form:amount`
-	SearchOn string `form:searchOn`
-	AddNew   string `form:addNew`
+	Amount   int    `form:"amount"`
+	SearchOn string `form:"searchOn"`
+	AddNew   string `form:"addNew"`
+	SeedUrl  string `form:"seedUrl"`
+	Action   string `form:"action"`
 }
 
 func DashboardPostHandler(c *fiber.Ctx) error {
 	input := settingsForm{}
 	if err := c.BodyParser(&input); err != nil {
 		c.Status(500)
-		return c.SendString("<h2>Can't get settings</h2>")
+		return c.SendString("<h2>Can't process input</h2>")
 	}
+
+	// Handle new URL submission
+	if input.Action == "addUrl" && input.SeedUrl != "" {
+		crawled := &db.CrawledUrl{
+			Url: input.SeedUrl,
+		}
+		if err := crawled.Save(); err != nil {
+			return c.SendString("<h2>Failed to add URL</h2>")
+		}
+		c.Append("HX-Refresh", "true")
+		return c.SendString("<h2>URL added successfully</h2>")
+	}
+
+	// Handle existing settings update
 	addNew := false
 	if input.AddNew == "on" {
 		addNew = true
@@ -125,15 +140,16 @@ func DashboardPostHandler(c *fiber.Ctx) error {
 	if input.SearchOn == "on" {
 		searchOn = true
 	}
+
 	settings := &db.SearchSetting{}
 	settings.Amount = uint(input.Amount)
 	settings.SearchOn = searchOn
 	settings.AddNew = addNew
-	err := settings.Update()
-	if err != nil {
-		fmt.Println(err)
-		return c.SendString("<h2>Can't get settings</h2>")
+
+	if err := settings.Update(); err != nil {
+		return c.SendString("<h2>Can't update settings</h2>")
 	}
+
 	c.Append("HX-Refresh", "true")
 	return c.SendStatus(200)
 }

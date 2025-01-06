@@ -113,7 +113,7 @@ func Home(amount string, searchOn bool, addNew bool) templ.Component {
 					return templ_7745c5c3_Err
 				}
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("></label></div><div class=\"card-actions justify-end gap-2\"><button type=\"submit\" class=\"btn btn-primary\">Submit</button> <button hx-post=\"/logout\" class=\"btn btn-secondary\">Logout</button></div><div id=\"indicator\" class=\"htmx-indicator\"><div class=\"flex justify-center items-center w-full\"><span class=\"loading loading-spinner loading-lg text-primary h-20 w-20\"></span></div></div><div id=\"feedback\"></div></form></div></div></div>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("></label></div><div class=\"form-control\"><label class=\"label\"><span class=\"label-text font-medium\">Add New Seed URL</span></label><div class=\"flex gap-2\"><input type=\"url\" name=\"seedUrl\" placeholder=\"https://example.com\" class=\"input input-bordered flex-1\"> <button type=\"submit\" name=\"action\" value=\"addUrl\" class=\"btn btn-accent\">Add URL</button></div></div><div class=\"card-actions justify-end gap-2\"><button type=\"submit\" class=\"btn btn-primary\">Submit</button> <button hx-post=\"/logout\" class=\"btn btn-secondary\">Logout</button></div><div id=\"indicator\" class=\"htmx-indicator\"><div class=\"flex justify-center items-center w-full\"><span class=\"loading loading-spinner loading-lg text-primary h-20 w-20\"></span></div></div><div id=\"feedback\"></div></form></div></div></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

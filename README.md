@@ -1,3 +1,9 @@
+# Prerequisites:
+Need .env or these environment variables set:
+`PORT = "<whatever port you want>"`
+`DATABASE_URL = "postgres://<local postgres url>"`
+`SECRET_KEY = "<some secret string>"`
+
 # Notes
 Using htmx, tailwindcss and daisyui from CDN
 
